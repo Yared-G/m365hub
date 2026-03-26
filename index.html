@@ -7,753 +7,223 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e1a;
-    --bg2: #0f1525;
-    --surface: #141929;
-    --border: #1e2a40;
-    --accent: #0078d4;
-    --accent2: #50e6ff;
-    --accent3: #ffaa44;
-    --text: #e8edf5;
-    --muted: #6b7a99;
-    --tag-bg: #1a2540;
+    --bg:#0a0e1a; --bg2:#0f1525; --surface:#141929; --border:#1e2a40;
+    --accent:#0078d4; --accent2:#50e6ff; --accent3:#ffaa44;
+    --text:#e8edf5; --muted:#6b7a99; --tag-bg:#1a2540;
   }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(0,120,212,.12) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(80,230,255,.07) 0%,transparent 50%);pointer-events:none;z-index:0}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;color:var(--text);text-decoration:none}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{background:var(--accent);color:#fff!important;padding:.45rem 1.1rem;border-radius:6px;font-weight:500!important;font-size:.875rem!important;transition:background .2s!important}
+  .nav-cta:hover{background:#0062b1!important}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  .hero{position:relative;z-index:1;padding:6rem 2.5rem 4rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,120,212,.15);border:1px solid rgba(0,120,212,.3);color:var(--accent2);font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .8rem;border-radius:20px;margin-bottom:1.4rem}
+  .eyebrow-dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.2rem}
+  .hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{color:var(--muted);font-size:1.05rem;line-height:1.7;font-weight:300;margin-bottom:2rem}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn-primary{background:var(--accent);color:#fff;padding:.75rem 1.5rem;border-radius:8px;font-weight:500;text-decoration:none;font-size:.95rem;transition:background .2s,transform .2s;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary:hover{background:#0062b1;transform:translateY(-1px)}
+  .btn-ghost{border:1px solid var(--border);color:var(--text);padding:.75rem 1.5rem;border-radius:8px;font-weight:500;text-decoration:none;font-size:.95rem;transition:border-color .2s,background .2s;display:inline-flex;align-items:center;gap:6px}
+  .btn-ghost:hover{border-color:var(--accent);background:rgba(0,120,212,.08)}
+  .hero-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;transition:border-color .2s,transform .2s;animation:fadeUp .5s ease both}
+  .stat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .stat-card:nth-child(2){animation-delay:.1s}.stat-card:nth-child(3){animation-delay:.2s}.stat-card:nth-child(4){animation-delay:.3s}.stat-card:nth-child(5){animation-delay:.4s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .stat-icon{font-size:1.4rem;margin-bottom:.6rem}
+  .stat-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800}
+  .stat-label{font-size:.78rem;color:var(--muted);margin-top:2px}
 
-  /* ---- Background mesh ---- */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(0,120,212,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 30% at 10% 80%, rgba(80,230,255,0.07) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
+  .section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:4rem 2.5rem}
+  .section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem;gap:1rem}
+  .section-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+  .section-title span{color:var(--accent2)}
+  .divider{height:1px;background:var(--border);max-width:1200px;margin:0 auto}
 
-  /* ---- NAV ---- */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,14,26,0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2.5rem;
-    height: 64px;
-  }
+  .updates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem}
+  .update-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s;display:flex;flex-direction:column;gap:.8rem}
+  .update-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,120,212,.12)}
+  .card-top{display:flex;align-items:center;justify-content:space-between}
+  .tag{background:var(--tag-bg);color:var(--accent2);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .65rem;border-radius:20px;border:1px solid rgba(80,230,255,.2)}
+  .tag.orange{color:var(--accent3);border-color:rgba(255,170,68,.25)}
+  .tag.green{color:#56d364;border-color:rgba(86,211,100,.25)}
+  .tag.red{color:#ff6b6b;border-color:rgba(255,107,107,.25)}
+  .card-date{color:var(--muted);font-size:.78rem}
+  .card-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.35;letter-spacing:-.01em}
+  .card-desc{color:var(--muted);font-size:.875rem;line-height:1.65;font-weight:300}
+  .card-footer{display:flex;align-items:center;gap:8px;color:var(--accent);font-size:.82rem;font-weight:500;margin-top:auto;padding-top:.5rem;border-top:1px solid var(--border)}
 
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    text-decoration: none;
-  }
+  .training-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+  .training-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s}
+  .training-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .training-thumb{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;overflow:hidden}
+  .training-thumb::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.25)}
+  .thumb-teams{background:linear-gradient(135deg,#4b53bc,#7b83eb)}.thumb-sp{background:linear-gradient(135deg,#036c70,#03787c)}.thumb-outlook{background:linear-gradient(135deg,#0f6cbd,#2886de)}.thumb-excel{background:linear-gradient(135deg,#107c41,#21a366)}.thumb-copilot{background:linear-gradient(135deg,#0078d4,#50e6ff)}.thumb-admin{background:linear-gradient(135deg,#a4262c,#d83b01)}.thumb-generic{background:linear-gradient(135deg,#5c2d91,#7719aa)}
+  .thumb-icon{position:relative;z-index:1}
+  .training-body{padding:1.1rem}
+  .training-meta{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+  .level-badge{font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.2rem .55rem;border-radius:4px}
+  .level-beginner{background:rgba(86,211,100,.15);color:#56d364}.level-inter{background:rgba(255,170,68,.15);color:var(--accent3)}.level-advanced{background:rgba(255,80,80,.15);color:#ff6b6b}
+  .training-duration{color:var(--muted);font-size:.78rem}
+  .training-title{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;margin-bottom:.4rem;line-height:1.3}
+  .training-desc{color:var(--muted);font-size:.82rem;line-height:1.6;font-weight:300}
+  .training-footer{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.1rem;border-top:1px solid var(--border)}
+  .enroll-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);padding:.35rem .9rem;border-radius:6px;font-size:.8rem;font-weight:500;cursor:pointer;transition:background .2s,color .2s;font-family:'DM Sans',sans-serif}
+  .enroll-btn:hover{background:var(--accent);color:#fff}
+  .students{color:var(--muted);font-size:.78rem}
 
-  .nav-logo .logo-icon {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.85rem; font-weight: 800; color: #fff;
-    font-family: 'Syne', sans-serif;
-  }
+  .newsletter{position:relative;z-index:1;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:4rem 2.5rem;text-align:center}
+  .newsletter-inner{max-width:540px;margin:0 auto}
+  .newsletter h2{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.75rem}
+  .newsletter p{color:var(--muted);font-size:.95rem;font-weight:300;margin-bottom:1.5rem}
+  .newsletter-form{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .newsletter-form input{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
+  .newsletter-form input:focus{border-color:var(--accent)}
+  .newsletter-form input::placeholder{color:var(--muted)}
+  .newsletter-form button{background:var(--accent);color:#fff;border:none;padding:.7rem 1.4rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s}
+  .newsletter-form button:hover{background:#0062b1}
 
-  .nav-links {
-    display: flex; gap: 2rem; list-style: none;
-  }
+  footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .footer-brand{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:var(--muted)}
+  .footer-links{display:flex;gap:1.5rem}
+  .footer-links a{color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--text)}
 
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--text); }
+  /* POST MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:1rem}
+  .modal-overlay.open{display:flex}
+  .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;animation:mIn .25s ease}
+  @keyframes mIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .modal-top{padding:1.8rem 1.8rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+  .modal-close{background:none;border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:50%;font-size:1rem;cursor:pointer;flex-shrink:0;transition:border-color .2s,color .2s}
+  .modal-close:hover{border-color:var(--accent);color:var(--text)}
+  .modal-body{padding:1.5rem 1.8rem 2rem}
+  .modal-tag-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.9rem}
+  .modal-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;line-height:1.25;letter-spacing:-.02em;margin-bottom:.5rem}
+  .modal-summary{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);line-height:1.6}
+  .modal-content{color:var(--text);font-size:.95rem;line-height:1.85;font-weight:300;white-space:pre-wrap}
 
-  .nav-cta {
-    background: var(--accent);
-    color: #fff !important;
-    padding: 0.45rem 1.1rem;
-    border-radius: 6px;
-    font-weight: 500 !important;
-    font-size: 0.875rem !important;
-    transition: background .2s !important;
-  }
-  .nav-cta:hover { background: #0062b1 !important; color: #fff !important; }
+  /* ADMIN PANEL */
+  .admin-overlay{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:1rem}
+  .admin-overlay.open{display:flex}
+  .admin-panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:640px;max-height:93vh;overflow-y:auto;font-family:'DM Sans',sans-serif;animation:mIn .25s ease}
+  .admin-hdr{padding:1.4rem 1.5rem 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
+  .admin-hdr-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem}
+  .a-close{background:none;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;transition:border-color .2s}
+  .a-close:hover{border-color:var(--accent)}
+  .admin-tabs{display:flex;gap:2px;padding:0 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.2rem}
+  .a-tab{background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;padding:.6rem .85rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
+  .a-tab.on{color:var(--accent2);border-bottom-color:var(--accent2)}
+  .admin-body{padding:0 1.5rem 1.5rem}
+  .lbl{font-size:.78rem;font-weight:500;color:var(--muted);display:block;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em}
+  .ai,.as,.at{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.65rem .9rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;margin-bottom:0}
+  .ai:focus,.as:focus,.at:focus{border-color:var(--accent)}
+  .as option{background:var(--bg2)}
+  .at{resize:vertical;min-height:130px;line-height:1.65}
+  .arow{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .afield{margin-bottom:.85rem}
+  .a-btn{background:var(--accent);color:#fff;border:none;padding:.7rem 1.4rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s;width:100%}
+  .a-btn:hover{background:#0062b1}
+  .a-btn.ghost{background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;margin-top:.35rem}
+  .a-btn.ghost:hover{border-color:var(--accent);color:var(--text);background:none}
+  .pitem{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem}
+  .pitem-info{flex:1}
+  .pitem-title{font-size:.875rem;font-weight:500;margin-bottom:2px}
+  .pitem-sub{font-size:.75rem;color:var(--muted)}
+  .p-edit{background:none;border:1px solid var(--border);color:var(--muted);padding:.28rem .65rem;border-radius:6px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s}
+  .p-edit:hover{border-color:var(--accent);color:var(--accent)}
+  .p-del{background:none;border:1px solid transparent;color:#ff6b6b;padding:.28rem .6rem;border-radius:6px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s}
+  .p-del:hover{border-color:#ff6b6b}
+  .toggle-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+  .ttrack{position:relative;display:inline-block;width:48px;height:26px;cursor:pointer}
+  .ttrack input{opacity:0;width:0;height:0;position:absolute}
+  .tslider{position:absolute;inset:0;background:var(--border);border-radius:13px;transition:.3s}
+  .tknob{position:absolute;left:3px;top:3px;width:20px;height:20px;background:var(--muted);border-radius:50%;transition:.3s}
+  #pwGate{padding:0 1.5rem 1.5rem}
+  .empty-s{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:.875rem}
+  .empty-s .ei{font-size:1.8rem;margin-bottom:.4rem}
+  #adminBtn{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--surface);border:1px solid var(--border);color:var(--muted);width:44px;height:44px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:border-color .2s,color .2s;display:flex;align-items:center;justify-content:center}
+  #adminBtn:hover{border-color:var(--accent);color:var(--accent)}
 
-  /* ---- HERO ---- */
-  .hero {
-    position: relative;
-    z-index: 1;
-    padding: 6rem 2.5rem 4rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(0,120,212,0.15);
-    border: 1px solid rgba(0,120,212,0.3);
-    color: var(--accent2);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    margin-bottom: 1.4rem;
-  }
-  .eyebrow-dot {
-    width: 6px; height: 6px;
-    background: var(--accent2);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%,100%{opacity:1;transform:scale(1)}
-    50%{opacity:.5;transform:scale(1.4)}
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.2rem;
-  }
-
-  .hero h1 span {
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero p {
-    color: var(--muted);
-    font-size: 1.05rem;
-    line-height: 1.7;
-    font-weight: 300;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btns {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 500;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: background .2s, transform .2s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-primary:hover { background: #0062b1; transform: translateY(-1px); }
-
-  .btn-ghost {
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 500;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: border-color .2s, background .2s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-ghost:hover { border-color: var(--accent); background: rgba(0,120,212,0.08); }
-
-  /* Hero visual */
-  .hero-visual {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.2rem;
-    transition: border-color .2s, transform .2s;
-    animation: fadeUp 0.5s ease both;
-  }
-  .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .stat-card:nth-child(1) { animation-delay: .1s; }
-  .stat-card:nth-child(2) { animation-delay: .2s; }
-  .stat-card:nth-child(3) { animation-delay: .3s; }
-  .stat-card:nth-child(4) { animation-delay: .4s; }
-
-  @keyframes fadeUp {
-    from { opacity:0; transform: translateY(20px); }
-    to   { opacity:1; transform: translateY(0); }
-  }
-
-  .stat-icon {
-    font-size: 1.4rem; margin-bottom: 0.6rem;
-  }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--text);
-  }
-  .stat-label {
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  /* ---- SECTION WRAPPER ---- */
-  .section {
-    position: relative; z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 2.5rem;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    gap: 1rem;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-  .section-title span { color: var(--accent2); }
-
-  .see-all {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    white-space: nowrap;
-    transition: color .2s;
-  }
-  .see-all:hover { color: var(--accent2); }
-
-  /* ---- UPDATES GRID ---- */
-  .updates-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .update-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: border-color .2s, transform .2s, box-shadow .2s;
-    display: flex; flex-direction: column; gap: 0.8rem;
-  }
-  .update-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0,120,212,0.12);
-  }
-
-  .card-top {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .tag {
-    background: var(--tag-bg);
-    color: var(--accent2);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.65rem;
-    border-radius: 20px;
-    border: 1px solid rgba(80,230,255,0.2);
-  }
-  .tag.orange { color: var(--accent3); border-color: rgba(255,170,68,0.25); }
-  .tag.green  { color: #56d364; border-color: rgba(86,211,100,0.25); }
-
-  .card-date { color: var(--muted); font-size: 0.78rem; }
-
-  .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-  }
-
-  .card-desc {
-    color: var(--muted);
-    font-size: 0.875rem;
-    line-height: 1.65;
-    font-weight: 300;
-  }
-
-  .card-footer {
-    display: flex; align-items: center; gap: 8px;
-    color: var(--accent);
-    font-size: 0.82rem;
-    font-weight: 500;
-    margin-top: auto;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ---- TRAINING ---- */
-  .training-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .training-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color .2s, transform .2s;
-  }
-  .training-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-  }
-
-  .training-thumb {
-    height: 120px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .training-thumb::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: rgba(0,0,0,0.25);
-  }
-  .thumb-teams  { background: linear-gradient(135deg, #4b53bc, #7b83eb); }
-  .thumb-sp     { background: linear-gradient(135deg, #036c70, #03787c); }
-  .thumb-outlook{ background: linear-gradient(135deg, #0f6cbd, #2886de); }
-  .thumb-excel  { background: linear-gradient(135deg, #107c41, #21a366); }
-  .thumb-copilot{ background: linear-gradient(135deg, #0078d4, #50e6ff); }
-  .thumb-admin  { background: linear-gradient(135deg, #a4262c, #d83b01); }
-
-  .thumb-icon { position: relative; z-index: 1; }
-
-  .training-body { padding: 1.1rem; }
-
-  .training-meta {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 0.5rem;
-  }
-
-  .level-badge {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.55rem;
-    border-radius: 4px;
-  }
-  .level-beginner { background: rgba(86,211,100,0.15); color: #56d364; }
-  .level-inter    { background: rgba(255,170,68,0.15); color: var(--accent3); }
-  .level-advanced { background: rgba(255,80,80,0.15); color: #ff6b6b; }
-
-  .training-duration { color: var(--muted); font-size: 0.78rem; }
-
-  .training-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.98rem;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-    line-height: 1.3;
-  }
-
-  .training-desc {
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.6;
-    font-weight: 300;
-  }
-
-  .training-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.9rem 1.1rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .enroll-btn {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 0.35rem 0.9rem;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background .2s, color .2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .enroll-btn:hover { background: var(--accent); color: #fff; }
-
-  .students { color: var(--muted); font-size: 0.78rem; }
-
-  /* ---- NEWSLETTER ---- */
-  .newsletter {
-    position: relative; z-index: 1;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 4rem 2.5rem;
-    text-align: center;
-  }
-  .newsletter-inner { max-width: 540px; margin: 0 auto; }
-  .newsletter h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.75rem;
-  }
-  .newsletter p { color: var(--muted); font-size: 0.95rem; font-weight: 300; margin-bottom: 1.5rem; }
-  .newsletter-form {
-    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-  }
-  .newsletter-form input {
-    flex: 1; min-width: 220px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.7rem 1rem;
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color .2s;
-  }
-  .newsletter-form input:focus { border-color: var(--accent); }
-  .newsletter-form input::placeholder { color: var(--muted); }
-  .newsletter-form button {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    padding: 0.7rem 1.4rem;
-    border-radius: 8px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background .2s;
-  }
-  .newsletter-form button:hover { background: #0062b1; }
-
-  /* ---- FOOTER ---- */
-  footer {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 2rem 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-    max-width: 100%;
-  }
-  .footer-brand {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { color: var(--muted); font-size: 0.85rem; text-decoration: none; transition: color .2s; }
-  .footer-links a:hover { color: var(--text); }
-
-  /* ---- DIVIDER ---- */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  /* ---- RESPONSIVE ---- */
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem 2rem; }
-    .hero-visual { display: none; }
-    nav { padding: 0 1.5rem; }
-    .nav-links { display: none; }
-    .section { padding: 3rem 1.5rem; }
-    .section-header { flex-direction: column; align-items: flex-start; }
-    footer { flex-direction: column; text-align: center; padding: 1.5rem; }
+  @media(max-width:768px){
+    .hero{grid-template-columns:1fr;padding:3rem 1.5rem 2rem}
+    .hero-visual{display:none}
+    nav{padding:0 1.5rem}
+    .nav-links{display:none}
+    .section{padding:3rem 1.5rem}
+    .section-header{flex-direction:column;align-items:flex-start}
+    footer{flex-direction:column;text-align:center;padding:1.5rem}
+    .arow{grid-template-columns:1fr}
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <img src="logo.png" alt="M365Y Logo" style="height:46px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,120,212,0.6));transition:filter .2s;" onmouseover="this.style.filter='drop-shadow(0 0 14px rgba(80,230,255,0.8))'" onmouseout="this.style.filter='drop-shadow(0 0 8px rgba(0,120,212,0.6))'">
+    <img src="logo.png" alt="M365Y" style="height:46px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,120,212,.6));transition:filter .2s" onmouseover="this.style.filter='drop-shadow(0 0 14px rgba(80,230,255,.8))'" onmouseout="this.style.filter='drop-shadow(0 0 8px rgba(0,120,212,.6))'">
   </a>
   <ul class="nav-links">
-    <li><a href="#">Updates</a></li>
-    <li><a href="#">Config Guides</a></li>
-    <li><a href="#" id="navTrainingLink">Training</a></li>
+    <li><a href="#updates">Updates</a></li>
+    <li><a href="#configs">Config Guides</a></li>
+    <li><a href="#trainingSection" id="navTrainingLink">Training</a></li>
     <li><a href="#">Resources</a></li>
     <li><a href="#" class="nav-cta">Join Free</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div>
-    <div class="hero-eyebrow">
-      <span class="eyebrow-dot"></span>
-      Microsoft 365 Knowledge Hub
-    </div>
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Microsoft 365 Knowledge Hub</div>
     <h1>Stay sharp on<br><span>Microsoft 365</span><br>for free.</h1>
     <p>Latest updates, step-by-step config guides, and free training sessions — everything you need to master the Microsoft 365 ecosystem.</p>
     <div class="hero-btns">
-      <a href="#training" class="btn-primary">🎓 Free Training</a>
+      <a href="#trainingSection" class="btn-primary">🎓 Free Training</a>
       <a href="#updates" class="btn-ghost">📢 Latest Updates</a>
     </div>
   </div>
   <div class="hero-visual">
-    <!-- Big logo -->
-    <div style="grid-column:1/-1;display:flex;justify-content:center;align-items:center;margin-bottom:0.5rem;">
-      <img src="logo.png" alt="M365Y Logo" style="width:100%;max-width:420px;height:auto;object-fit:contain;filter:drop-shadow(0 0 28px rgba(0,120,212,0.55)) drop-shadow(0 0 8px rgba(80,230,255,0.3));transition:filter .3s;" onmouseover="this.style.filter='drop-shadow(0 0 38px rgba(0,120,212,0.75)) drop-shadow(0 0 14px rgba(80,230,255,0.5))'" onmouseout="this.style.filter='drop-shadow(0 0 28px rgba(0,120,212,0.55)) drop-shadow(0 0 8px rgba(80,230,255,0.3))'">
+    <div style="grid-column:1/-1;display:flex;justify-content:center;margin-bottom:.5rem">
+      <img src="logo.png" alt="M365Y" style="width:100%;max-width:420px;height:auto;object-fit:contain;filter:drop-shadow(0 0 28px rgba(0,120,212,.55)) drop-shadow(0 0 8px rgba(80,230,255,.3))">
     </div>
-    <!-- Stats below logo -->
-    <div class="stat-card">
-      <div class="stat-icon">📢</div>
-      <div class="stat-num">24+</div>
-      <div class="stat-label">M365 Updates Posted</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🎓</div>
-      <div class="stat-num">12</div>
-      <div class="stat-label">Free Training Modules</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">⚙️</div>
-      <div class="stat-num">30+</div>
-      <div class="stat-label">Config Guides</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">👥</div>
-      <div class="stat-num">500+</div>
-      <div class="stat-label">Community Members</div>
-    </div>
+    <div class="stat-card"><div class="stat-icon">📢</div><div class="stat-num" id="statUpdates">0</div><div class="stat-label">Updates Posted</div></div>
+    <div class="stat-card"><div class="stat-icon">🎓</div><div class="stat-num" id="statTraining">0</div><div class="stat-label">Training Modules</div></div>
+    <div class="stat-card"><div class="stat-icon">⚙️</div><div class="stat-num" id="statConfigs">0</div><div class="stat-label">Config Guides</div></div>
+    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-num">500+</div><div class="stat-label">Community Members</div></div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- LATEST UPDATES -->
 <div class="section" id="updates">
-  <div class="section-header">
-    <h2 class="section-title">Latest <span>Updates</span></h2>
-    <a href="#" class="see-all">View all updates →</a>
-  </div>
-  <div class="updates-grid">
-    <div class="update-card">
-      <div class="card-top">
-        <span class="tag">New Feature</span>
-        <span class="card-date">Mar 20, 2026</span>
-      </div>
-      <div class="card-title">Copilot in Teams now supports meeting recaps in 30+ languages</div>
-      <div class="card-desc">Microsoft rolled out multilingual meeting recaps in Teams Copilot, expanding support across EMEA and APAC regions with improved accuracy.</div>
-      <div class="card-footer">Read more →</div>
-    </div>
-    <div class="update-card">
-      <div class="card-top">
-        <span class="tag orange">Config Change</span>
-        <span class="card-date">Mar 17, 2026</span>
-      </div>
-      <div class="card-title">SharePoint Online: New external sharing policy defaults</div>
-      <div class="card-desc">Tenant admins should review updated external sharing defaults in SharePoint Admin Center — Microsoft has changed baseline settings for new tenants.</div>
-      <div class="card-footer">Read more →</div>
-    </div>
-    <div class="update-card">
-      <div class="card-top">
-        <span class="tag green">Security</span>
-        <span class="card-date">Mar 14, 2026</span>
-      </div>
-      <div class="card-title">Conditional Access update: Require compliant devices for M365 Apps</div>
-      <div class="card-desc">A new Conditional Access policy template is available in Entra ID that enforces device compliance before granting access to core M365 apps.</div>
-      <div class="card-footer">Read more →</div>
-    </div>
-    <div class="update-card">
-      <div class="card-top">
-        <span class="tag">Roadmap</span>
-        <span class="card-date">Mar 10, 2026</span>
-      </div>
-      <div class="card-title">Loop components coming to Outlook Mobile — Q2 2026</div>
-      <div class="card-desc">Microsoft confirmed Loop components will be available in Outlook Mobile by Q2 2026, enabling collaborative editing directly within email threads.</div>
-      <div class="card-footer">Read more →</div>
-    </div>
-    <div class="update-card">
-      <div class="card-top">
-        <span class="tag orange">Deprecation</span>
-        <span class="card-date">Mar 5, 2026</span>
-      </div>
-      <div class="card-title">Classic Teams desktop app reaches end of support</div>
-      <div class="card-desc">Microsoft has officially ended support for Classic Teams. All users should now be on the new Teams client. Admins should audit remaining Classic Teams installs.</div>
-      <div class="card-footer">Read more →</div>
-    </div>
-    <div class="update-card">
-      <div class="card-top">
-        <span class="tag">Admin</span>
-        <span class="card-date">Mar 1, 2026</span>
-      </div>
-      <div class="card-title">Microsoft 365 Admin Center gets improved health dashboard</div>
-      <div class="card-desc">The Service Health dashboard in the M365 Admin Center received a major UI overhaul with better incident tracking and proactive notifications for admins.</div>
-      <div class="card-footer">Read more →</div>
-    </div>
-  </div>
+  <div class="section-header"><h2 class="section-title">Latest <span>Updates</span></h2></div>
+  <div class="updates-grid" id="updatesGrid"></div>
 </div>
 
 <div class="divider"></div>
 
-<!-- TRAINING -->
-<div class="section" id="trainingSection">
-  <div class="section-header">
-    <h2 class="section-title">Free <span>Training</span></h2>
-    <a href="#" class="see-all">All courses →</a>
-  </div>
-  <div class="training-grid">
-    <div class="training-card">
-      <div class="training-thumb thumb-teams"><span class="thumb-icon">💬</span></div>
-      <div class="training-body">
-        <div class="training-meta">
-          <span class="level-badge level-beginner">Beginner</span>
-          <span class="training-duration">⏱ 45 min</span>
-        </div>
-        <div class="training-title">Microsoft Teams Essentials</div>
-        <div class="training-desc">Channels, meetings, chat, and file sharing — everything a new Teams user needs.</div>
-      </div>
-      <div class="training-footer">
-        <span class="students">👥 312 enrolled</span>
-        <button class="enroll-btn">Start Free</button>
-      </div>
-    </div>
-    <div class="training-card">
-      <div class="training-thumb thumb-sp"><span class="thumb-icon">🌐</span></div>
-      <div class="training-body">
-        <div class="training-meta">
-          <span class="level-badge level-inter">Intermediate</span>
-          <span class="training-duration">⏱ 90 min</span>
-        </div>
-        <div class="training-title">SharePoint Sites & Permissions</div>
-        <div class="training-desc">Build intranet sites, manage permissions, and configure document libraries like a pro.</div>
-      </div>
-      <div class="training-footer">
-        <span class="students">👥 187 enrolled</span>
-        <button class="enroll-btn">Start Free</button>
-      </div>
-    </div>
-    <div class="training-card">
-      <div class="training-thumb thumb-outlook"><span class="thumb-icon">📧</span></div>
-      <div class="training-body">
-        <div class="training-meta">
-          <span class="level-badge level-beginner">Beginner</span>
-          <span class="training-duration">⏱ 30 min</span>
-        </div>
-        <div class="training-title">Outlook Power User Tips</div>
-        <div class="training-desc">Rules, focused inbox, calendar sharing, and shortcuts that save hours every week.</div>
-      </div>
-      <div class="training-footer">
-        <span class="students">👥 428 enrolled</span>
-        <button class="enroll-btn">Start Free</button>
-      </div>
-    </div>
-    <div class="training-card">
-      <div class="training-thumb thumb-copilot"><span class="thumb-icon">🤖</span></div>
-      <div class="training-body">
-        <div class="training-meta">
-          <span class="level-badge level-inter">Intermediate</span>
-          <span class="training-duration">⏱ 60 min</span>
-        </div>
-        <div class="training-title">Copilot for M365 — Getting Started</div>
-        <div class="training-desc">Learn to use Copilot across Word, Excel, Teams, and Outlook to dramatically boost productivity.</div>
-      </div>
-      <div class="training-footer">
-        <span class="students">👥 561 enrolled</span>
-        <button class="enroll-btn">Start Free</button>
-      </div>
-    </div>
-    <div class="training-card">
-      <div class="training-thumb thumb-admin"><span class="thumb-icon">🛡️</span></div>
-      <div class="training-body">
-        <div class="training-meta">
-          <span class="level-badge level-advanced">Advanced</span>
-          <span class="training-duration">⏱ 2 hrs</span>
-        </div>
-        <div class="training-title">M365 Admin: Security & Compliance</div>
-        <div class="training-desc">Conditional Access, DLP policies, Purview, and Defender for M365 — for tenant admins.</div>
-      </div>
-      <div class="training-footer">
-        <span class="students">👥 94 enrolled</span>
-        <button class="enroll-btn">Start Free</button>
-      </div>
-    </div>
-    <div class="training-card">
-      <div class="training-thumb thumb-excel"><span class="thumb-icon">📊</span></div>
-      <div class="training-body">
-        <div class="training-meta">
-          <span class="level-badge level-inter">Intermediate</span>
-          <span class="training-duration">⏱ 75 min</span>
-        </div>
-        <div class="training-title">Excel in M365 — Beyond the Basics</div>
-        <div class="training-desc">Dynamic arrays, XLOOKUP, co-authoring, and Power Query integration in modern Excel.</div>
-      </div>
-      <div class="training-footer">
-        <span class="students">👥 245 enrolled</span>
-        <button class="enroll-btn">Start Free</button>
-      </div>
-    </div>
-  </div>
+<div class="section" id="configs">
+  <div class="section-header"><h2 class="section-title">Config <span>Guides</span></h2></div>
+  <div class="updates-grid" id="configsGrid"></div>
 </div>
 
-<!-- NEWSLETTER -->
+<div class="divider"></div>
+
+<div class="section" id="trainingSection">
+  <div class="section-header"><h2 class="section-title">Free <span>Training</span></h2></div>
+  <div class="training-grid" id="trainingGrid"></div>
+</div>
+
 <div class="newsletter">
   <div class="newsletter-inner">
     <h2>Never miss an update 📬</h2>
@@ -765,170 +235,352 @@
   </div>
 </div>
 
-<!-- ADMIN TOGGLE BUTTON (floating) -->
-<button id="adminBtn" onclick="openAdmin()" title="Admin Panel" style="
-  position:fixed; bottom:24px; right:24px; z-index:999;
-  background:#141929; border:1px solid #1e2a40; color:#6b7a99;
-  width:44px; height:44px; border-radius:50%; font-size:1.1rem;
-  cursor:pointer; transition:border-color .2s, color .2s;
-  display:flex; align-items:center; justify-content:center;
-" onmouseover="this.style.borderColor='#0078d4';this.style.color='#0078d4'"
-   onmouseout="this.style.borderColor='#1e2a40';this.style.color='#6b7a99'">⚙️</button>
+<footer>
+  <div class="footer-brand">M365Y.COM © 2026</div>
+  <div class="footer-links">
+    <a href="#updates">Updates</a>
+    <a href="#trainingSection" id="footerTrainingLink">Training</a>
+    <a href="#configs">Config Guides</a>
+  </div>
+</footer>
 
-<!-- ADMIN MODAL -->
-<div id="adminModal" style="
-  display:none; position:fixed; inset:0; z-index:1000;
-  background:rgba(0,0,0,0.7); backdrop-filter:blur(8px);
-  align-items:center; justify-content:center;
-">
-  <div style="
-    background:#141929; border:1px solid #1e2a40; border-radius:16px;
-    padding:2rem; width:100%; max-width:380px; margin:1rem;
-    font-family:'DM Sans',sans-serif;
-  ">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
-      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#e8edf5;">Admin Panel</div>
-      <button onclick="closeAdmin()" style="background:none;border:none;color:#6b7a99;font-size:1.2rem;cursor:pointer;">✕</button>
+<!-- POST READ MODAL -->
+<div class="modal-overlay" id="postModal" onclick="if(event.target===this)closePM()">
+  <div class="modal-box">
+    <div class="modal-top"><div></div><button class="modal-close" onclick="closePM()">✕</button></div>
+    <div class="modal-body">
+      <div class="modal-tag-row"><span class="tag" id="pmTag"></span><span class="card-date" id="pmDate"></span></div>
+      <div class="modal-title" id="pmTitle"></div>
+      <div class="modal-summary" id="pmSummary"></div>
+      <div class="modal-content" id="pmContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<button id="adminBtn" onclick="openAdmin()" title="Admin">⚙️</button>
+
+<div class="admin-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
+  <div class="admin-panel">
+    <div class="admin-hdr">
+      <div class="admin-hdr-title">⚙️ Admin Panel</div>
+      <button class="a-close" onclick="closeAdmin()">✕</button>
     </div>
 
-    <!-- Password gate -->
-    <div id="adminGate">
-      <div style="color:#6b7a99;font-size:0.85rem;margin-bottom:0.75rem;">Enter admin password to continue</div>
-      <input id="adminPwInput" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()" style="
-        width:100%; background:#0f1525; border:1px solid #1e2a40; color:#e8edf5;
-        padding:0.65rem 1rem; border-radius:8px; font-family:'DM Sans',sans-serif;
-        font-size:0.9rem; outline:none; margin-bottom:0.75rem; box-sizing:border-box;
-      ">
-      <div id="adminPwErr" style="color:#ff6b6b;font-size:0.8rem;margin-bottom:0.75rem;display:none;">Incorrect password</div>
-      <button onclick="checkPw()" style="
-        width:100%; background:#0078d4; color:#fff; border:none;
-        padding:0.65rem; border-radius:8px; font-family:'Syne',sans-serif;
-        font-weight:600; font-size:0.9rem; cursor:pointer;
-      ">Unlock</button>
+    <!-- PW GATE -->
+    <div id="pwGate">
+      <div style="color:var(--muted);font-size:.875rem;margin-bottom:.75rem">Enter admin password to continue</div>
+      <input id="pwInput" type="password" class="ai" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()" style="margin-bottom:.75rem">
+      <div id="pwErr" style="color:#ff6b6b;font-size:.8rem;margin-bottom:.75rem;display:none">Incorrect password</div>
+      <button onclick="checkPw()" class="a-btn">Unlock</button>
     </div>
 
-    <!-- Controls (shown after auth) -->
-    <div id="adminControls" style="display:none;">
-      <div style="
-        background:#0f1525; border:1px solid #1e2a40; border-radius:10px;
-        padding:1rem 1.2rem; display:flex; align-items:center; justify-content:space-between;
-      ">
-        <div>
-          <div style="font-weight:500;font-size:0.95rem;color:#e8edf5;">Free Training</div>
-          <div id="trainingStatusLabel" style="font-size:0.78rem;color:#6b7a99;margin-top:2px;">Loading...</div>
-        </div>
-        <label style="position:relative;display:inline-block;width:48px;height:26px;cursor:pointer;">
-          <input type="checkbox" id="trainingToggle" onchange="toggleTraining()" style="opacity:0;width:0;height:0;">
-          <span id="toggleSlider" style="
-            position:absolute;inset:0;background:#1e2a40;border-radius:13px;transition:.3s;
-          "></span>
-          <span id="toggleKnob" style="
-            position:absolute;left:3px;top:3px;width:20px;height:20px;
-            background:#6b7a99;border-radius:50%;transition:.3s;
-          "></span>
-        </label>
+    <!-- CONTROLS -->
+    <div id="adminCtrl" style="display:none">
+      <div class="admin-tabs">
+        <button class="a-tab on" onclick="switchTab('new')">➕ New Post</button>
+        <button class="a-tab" onclick="switchTab('manage')">📋 Manage</button>
+        <button class="a-tab" onclick="switchTab('settings')">🔧 Settings</button>
       </div>
-      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #1e2a40;">
-        <button onclick="lockAdmin()" style="
-          background:none;border:1px solid #1e2a40;color:#6b7a99;
-          padding:0.45rem 1rem;border-radius:6px;font-size:0.8rem;
-          cursor:pointer;font-family:'DM Sans',sans-serif;
-        ">🔒 Lock</button>
+      <div class="admin-body">
+
+        <!-- NEW POST -->
+        <div id="tNew">
+          <input type="hidden" id="eId">
+          <div class="afield">
+            <label class="lbl">Section</label>
+            <select class="as" id="pSection" onchange="onSectionChange()">
+              <option value="updates">📢 Updates</option>
+              <option value="configs">⚙️ Config Guides</option>
+              <option value="training">🎓 Training</option>
+            </select>
+          </div>
+          <div class="arow">
+            <div class="afield">
+              <label class="lbl">Tag</label>
+              <select class="as" id="pTag">
+                <option>New Feature</option><option>Config Change</option><option>Security</option>
+                <option>Deprecation</option><option>Roadmap</option><option>Admin</option>
+                <option>Guide</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+              </select>
+            </div>
+            <div class="afield">
+              <label class="lbl">Date</label>
+              <input type="date" class="ai" id="pDate">
+            </div>
+          </div>
+          <div class="afield">
+            <label class="lbl">Title</label>
+            <input type="text" class="ai" id="pTitle" placeholder="Post title...">
+          </div>
+          <div class="afield">
+            <label class="lbl">Short Description (shown on card)</label>
+            <input type="text" class="ai" id="pDesc" placeholder="Brief summary...">
+          </div>
+          <div class="afield">
+            <label class="lbl">Full Content (shown when post is clicked)</label>
+            <textarea class="at" id="pContent" placeholder="Write the full post content here..."></textarea>
+          </div>
+          <div id="trainingExtra" style="display:none">
+            <div class="arow">
+              <div class="afield"><label class="lbl">Duration</label><input type="text" class="ai" id="pDuration" placeholder="e.g. 45 min"></div>
+              <div class="afield"><label class="lbl">Enrolled</label><input type="text" class="ai" id="pEnrolled" placeholder="e.g. 0"></div>
+            </div>
+            <div class="afield"><label class="lbl">Icon (emoji)</label><input type="text" class="ai" id="pIcon" placeholder="e.g. 💬"></div>
+          </div>
+          <button class="a-btn" id="submitBtn" onclick="savePost()">✅ Publish Post</button>
+          <button class="a-btn ghost" id="cancelBtn" style="display:none" onclick="cancelEdit()">Cancel Edit</button>
+        </div>
+
+        <!-- MANAGE -->
+        <div id="tManage" style="display:none">
+          <div class="afield">
+            <select class="as" id="mFilter" onchange="renderManage()">
+              <option value="all">All Posts</option>
+              <option value="updates">Updates</option>
+              <option value="configs">Config Guides</option>
+              <option value="training">Training</option>
+            </select>
+          </div>
+          <div id="manageList"></div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div id="tSettings" style="display:none">
+          <div class="toggle-row">
+            <div>
+              <div style="font-weight:500;font-size:.95rem">Free Training Section</div>
+              <div id="tLabel" style="font-size:.78rem;color:var(--muted);margin-top:2px"></div>
+            </div>
+            <label class="ttrack">
+              <input type="checkbox" id="tToggle" onchange="toggleTraining()">
+              <span class="tslider" id="tSlider"></span>
+              <span class="tknob" id="tKnob"></span>
+            </label>
+          </div>
+          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">
+            <button onclick="lockAdmin()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:.5rem 1rem;border-radius:6px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">🔒 Lock Panel</button>
+            <button onclick="if(confirm('Delete ALL posts? Cannot be undone.'))clearAll()" style="background:none;border:1px solid rgba(255,107,107,.3);color:#ff6b6b;padding:.5rem 1rem;border-radius:6px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">🗑 Clear All Posts</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // ---- CONFIG: change this password ----
-  const ADMIN_PASSWORD = "m365admin";
+const PW   = "m365admin"; // 🔑 Change this password!
+const PKEY = "m365y_posts";
+const TKEY = "m365y_training";
 
-  // ---- State: persisted in localStorage ----
-  const STORAGE_KEY = "m365hub_training_visible";
+// ---- DATA ----
+const getPosts = () => { try { return JSON.parse(localStorage.getItem(PKEY))||[]; } catch{ return []; } };
+const setPosts = p => localStorage.setItem(PKEY, JSON.stringify(p));
+const getTV    = () => { const v=localStorage.getItem(TKEY); return v===null?true:v==="true"; };
 
-  function getTrainingVisible() {
-    const val = localStorage.getItem(STORAGE_KEY);
-    return val === null ? true : val === "true"; // default ON
+// ---- UTILS ----
+const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmtDate = d => { if(!d)return""; const dt=new Date(d+"T00:00:00"); return dt.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); };
+const tagCls  = t => ({Security:"green","Config Change":"orange",Deprecation:"red",Guide:"",Beginner:"green",Intermediate:"orange",Advanced:"red"}[t]||"");
+const getThumb= t => { for(const[k,v] of Object.entries({Teams:"thumb-teams",SharePoint:"thumb-sp",Outlook:"thumb-outlook",Excel:"thumb-excel",Copilot:"thumb-copilot",Admin:"thumb-admin"})){if(t.toLowerCase().includes(k.toLowerCase()))return v;} return "thumb-generic"; };
+const getLvl  = t => t==="Beginner"?"level-beginner":t==="Advanced"?"level-advanced":"level-inter";
+
+// ---- RENDER ----
+function renderAll() {
+  const all = getPosts();
+  const u = all.filter(p=>p.section==="updates");
+  const c = all.filter(p=>p.section==="configs");
+  const t = all.filter(p=>p.section==="training");
+  renderCards("updatesGrid", u, "📢", "No updates yet — check back soon!");
+  renderCards("configsGrid", c, "⚙️", "No config guides yet — coming soon!");
+  renderTraining("trainingGrid", t);
+  document.getElementById("statUpdates").textContent  = u.length||"0";
+  document.getElementById("statTraining").textContent = t.length||"0";
+  document.getElementById("statConfigs").textContent  = c.length||"0";
+  applyTV(getTV());
+}
+
+function renderCards(id, posts, icon, empty) {
+  const g = document.getElementById(id);
+  if(!posts.length){ g.innerHTML=`<div class="empty-s"><div class="ei">${icon}</div>${empty}</div>`; return; }
+  g.innerHTML = posts.slice().reverse().map(p=>`
+    <div class="update-card" onclick="openPM('${p.id}')">
+      <div class="card-top"><span class="tag ${tagCls(p.tag)}">${esc(p.tag)}</span><span class="card-date">${fmtDate(p.date)}</span></div>
+      <div class="card-title">${esc(p.title)}</div>
+      <div class="card-desc">${esc(p.desc)}</div>
+      <div class="card-footer">Read more →</div>
+    </div>`).join("");
+}
+
+function renderTraining(id, posts) {
+  const g = document.getElementById(id);
+  if(!posts.length){ g.innerHTML=`<div class="empty-s"><div class="ei">🎓</div>No training modules yet — coming soon!</div>`; return; }
+  g.innerHTML = posts.slice().reverse().map(p=>`
+    <div class="training-card" onclick="openPM('${p.id}')">
+      <div class="training-thumb ${getThumb(p.title)}"><span class="thumb-icon">${p.icon||"🎓"}</span></div>
+      <div class="training-body">
+        <div class="training-meta"><span class="level-badge ${getLvl(p.tag)}">${esc(p.tag)}</span><span class="training-duration">⏱ ${esc(p.duration||"TBD")}</span></div>
+        <div class="training-title">${esc(p.title)}</div>
+        <div class="training-desc">${esc(p.desc)}</div>
+      </div>
+      <div class="training-footer">
+        <span class="students">👥 ${esc(p.enrolled||"0")} enrolled</span>
+        <button class="enroll-btn" onclick="event.stopPropagation();openPM('${p.id}')">Start Free</button>
+      </div>
+    </div>`).join("");
+}
+
+// ---- POST MODAL ----
+function openPM(id) {
+  const p = getPosts().find(x=>x.id===id); if(!p)return;
+  document.getElementById("pmTag").className   = "tag "+tagCls(p.tag);
+  document.getElementById("pmTag").textContent = p.tag;
+  document.getElementById("pmDate").textContent    = fmtDate(p.date);
+  document.getElementById("pmTitle").textContent   = p.title;
+  document.getElementById("pmSummary").textContent = p.desc;
+  document.getElementById("pmContent").textContent = p.content||"Full content coming soon.";
+  document.getElementById("postModal").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closePM(){ document.getElementById("postModal").classList.remove("open"); document.body.style.overflow=""; }
+
+// ---- ADMIN ----
+function openAdmin() {
+  document.getElementById("adminOverlay").classList.add("open");
+  document.body.style.overflow="hidden";
+  const ok = sessionStorage.getItem("aOk")==="1";
+  document.getElementById("pwGate").style.display  = ok?"none":"";
+  document.getElementById("adminCtrl").style.display= ok?""    :"none";
+  if(ok){ applyTV(getTV()); renderManage(); }
+  else setTimeout(()=>document.getElementById("pwInput").focus(),60);
+  if(!document.getElementById("pDate").value) document.getElementById("pDate").value=new Date().toISOString().split("T")[0];
+}
+function closeAdmin(){ document.getElementById("adminOverlay").classList.remove("open"); document.body.style.overflow=""; }
+function checkPw(){
+  if(document.getElementById("pwInput").value===PW){
+    sessionStorage.setItem("aOk","1");
+    document.getElementById("pwGate").style.display  ="none";
+    document.getElementById("adminCtrl").style.display="";
+    document.getElementById("pwInput").value="";
+    document.getElementById("pwErr").style.display="none";
+    applyTV(getTV()); renderManage();
+  } else {
+    document.getElementById("pwErr").style.display="block";
+    document.getElementById("pwInput").value="";
   }
+}
+function lockAdmin(){ sessionStorage.removeItem("aOk"); closeAdmin(); }
 
-  function applyTrainingState(visible) {
-    const section = document.getElementById("trainingSection");
-    const label   = document.getElementById("trainingStatusLabel");
-    const toggle  = document.getElementById("trainingToggle");
-    const slider  = document.getElementById("toggleSlider");
-    const knob    = document.getElementById("toggleKnob");
-    const navLink = document.getElementById("navTrainingLink");
+function switchTab(t){
+  ["New","Manage","Settings"].forEach(n=>{ document.getElementById("t"+n).style.display=n.toLowerCase()===t?"":"none"; });
+  document.querySelectorAll(".a-tab").forEach((b,i)=>b.classList.toggle("on",["new","manage","settings"][i]===t));
+  if(t==="manage") renderManage();
+  if(t==="settings") applyTV(getTV());
+}
 
-    if (section) section.style.display = visible ? "" : "none";
-    if (navLink) navLink.style.display = visible ? "" : "none";
-    if (label)   label.textContent = visible ? "Visible to visitors ✅" : "Hidden from visitors 🔴";
-    if (toggle)  toggle.checked = visible;
-    if (slider)  slider.style.background = visible ? "#0078d4" : "#1e2a40";
-    if (knob)    knob.style.transform = visible ? "translateX(22px)" : "translateX(0)";
-    if (knob)    knob.style.background = visible ? "#fff" : "#6b7a99";
-  }
+function onSectionChange(){ document.getElementById("trainingExtra").style.display=document.getElementById("pSection").value==="training"?"":"none"; }
 
-  function toggleTraining() {
-    const newVal = document.getElementById("trainingToggle").checked;
-    localStorage.setItem(STORAGE_KEY, newVal);
-    applyTrainingState(newVal);
-  }
+// ---- SAVE ----
+function savePost(){
+  const id=document.getElementById("eId").value;
+  const d={
+    section:document.getElementById("pSection").value,
+    tag:document.getElementById("pTag").value,
+    date:document.getElementById("pDate").value,
+    title:document.getElementById("pTitle").value.trim(),
+    desc:document.getElementById("pDesc").value.trim(),
+    content:document.getElementById("pContent").value.trim(),
+    duration:document.getElementById("pDuration").value.trim(),
+    enrolled:document.getElementById("pEnrolled").value.trim(),
+    icon:document.getElementById("pIcon").value.trim()
+  };
+  if(!d.title){alert("Please enter a title!");return;}
+  if(!d.desc) {alert("Please enter a short description!");return;}
+  const posts=getPosts();
+  if(id){ const i=posts.findIndex(p=>p.id===id); if(i>=0)posts[i]={...posts[i],...d}; }
+  else posts.push({id:"p"+Date.now(),...d});
+  setPosts(posts); renderAll(); cancelEdit();
+  const btn=document.getElementById("submitBtn");
+  btn.textContent="✅ Published!"; btn.style.background="#107c41";
+  setTimeout(()=>{ btn.textContent="✅ Publish Post"; btn.style.background=""; },2200);
+}
 
-  // Apply on page load
-  applyTrainingState(getTrainingVisible());
+function cancelEdit(){
+  ["eId","pTitle","pDesc","pContent","pDuration","pEnrolled","pIcon"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("pSection").value="updates";
+  document.getElementById("trainingExtra").style.display="none";
+  document.getElementById("submitBtn").textContent="✅ Publish Post";
+  document.getElementById("cancelBtn").style.display="none";
+}
 
-  // ---- Modal ----
-  function openAdmin() {
-    document.getElementById("adminModal").style.display = "flex";
-    const unlocked = sessionStorage.getItem("adminUnlocked") === "true";
-    document.getElementById("adminGate").style.display     = unlocked ? "none" : "";
-    document.getElementById("adminControls").style.display = unlocked ? ""     : "none";
-    if (unlocked) applyTrainingState(getTrainingVisible());
-    setTimeout(() => { const i = document.getElementById("adminPwInput"); if(i) i.focus(); }, 50);
-  }
+function editPost(id){
+  const p=getPosts().find(x=>x.id===id); if(!p)return;
+  switchTab("new");
+  document.getElementById("eId").value      =p.id;
+  document.getElementById("pSection").value =p.section;
+  document.getElementById("pTag").value     =p.tag;
+  document.getElementById("pDate").value    =p.date;
+  document.getElementById("pTitle").value   =p.title;
+  document.getElementById("pDesc").value    =p.desc;
+  document.getElementById("pContent").value =p.content||"";
+  document.getElementById("pDuration").value=p.duration||"";
+  document.getElementById("pEnrolled").value=p.enrolled||"";
+  document.getElementById("pIcon").value    =p.icon||"";
+  document.getElementById("trainingExtra").style.display=p.section==="training"?"":"none";
+  document.getElementById("submitBtn").textContent="💾 Save Changes";
+  document.getElementById("cancelBtn").style.display="";
+  document.querySelector(".admin-panel").scrollTop=0;
+}
 
-  function closeAdmin() {
-    document.getElementById("adminModal").style.display = "none";
-    document.getElementById("adminPwInput").value = "";
-    document.getElementById("adminPwErr").style.display = "none";
-  }
+function deletePost(id){
+  if(!confirm("Delete this post?"))return;
+  setPosts(getPosts().filter(p=>p.id!==id));
+  renderAll(); renderManage();
+}
 
-  function checkPw() {
-    const val = document.getElementById("adminPwInput").value;
-    if (val === ADMIN_PASSWORD) {
-      sessionStorage.setItem("adminUnlocked", "true");
-      document.getElementById("adminGate").style.display = "none";
-      document.getElementById("adminControls").style.display = "";
-      document.getElementById("adminPwInput").value = "";
-      document.getElementById("adminPwErr").style.display = "none";
-      applyTrainingState(getTrainingVisible());
-    } else {
-      document.getElementById("adminPwErr").style.display = "block";
-      document.getElementById("adminPwInput").value = "";
-    }
-  }
+function clearAll(){ setPosts([]); renderAll(); renderManage(); }
 
-  function lockAdmin() {
-    sessionStorage.removeItem("adminUnlocked");
-    closeAdmin();
-  }
+function renderManage(){
+  const f=document.getElementById("mFilter").value;
+  const posts=getPosts().filter(p=>f==="all"||p.section===f).slice().reverse();
+  const el=document.getElementById("manageList");
+  if(!posts.length){ el.innerHTML=`<div class="empty-s"><div class="ei">📭</div>No posts here yet.</div>`; return; }
+  el.innerHTML=posts.map(p=>`
+    <div class="pitem">
+      <div class="pitem-info">
+        <div class="pitem-title">${esc(p.title)}</div>
+        <div class="pitem-sub">${p.section} · ${p.tag} · ${fmtDate(p.date)}</div>
+      </div>
+      <button class="p-edit" onclick="editPost('${p.id}')">✏️ Edit</button>
+      <button class="p-del" onclick="deletePost('${p.id}')">🗑</button>
+    </div>`).join("");
+}
 
-  // Close modal on backdrop click
-  document.getElementById("adminModal").addEventListener("click", function(e) {
-    if (e.target === this) closeAdmin();
-  });
+// ---- TRAINING TOGGLE ----
+function applyTV(v){
+  const sec=document.getElementById("trainingSection");
+  const nav=document.getElementById("navTrainingLink");
+  const ft =document.getElementById("footerTrainingLink");
+  const lbl=document.getElementById("tLabel");
+  const tog=document.getElementById("tToggle");
+  const sl =document.getElementById("tSlider");
+  const kn =document.getElementById("tKnob");
+  if(sec)sec.style.display=v?"":"none";
+  if(nav)nav.style.display=v?"":"none";
+  if(ft) ft.style.display =v?"":"none";
+  if(lbl)lbl.textContent  =v?"Visible to visitors ✅":"Hidden from visitors 🔴";
+  if(tog)tog.checked=v;
+  if(sl) sl.style.background=v?"#0078d4":"var(--border)";
+  if(kn) { kn.style.transform=v?"translateX(22px)":""; kn.style.background=v?"#fff":"var(--muted)"; }
+}
+function toggleTraining(){ const v=document.getElementById("tToggle").checked; localStorage.setItem(TKEY,v); applyTV(v); }
+
+// Keyboard
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closePM(); closeAdmin(); } });
+
+// Init
+renderAll();
 </script>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-brand">M365 Hub © 2026</div>
-  <div class="footer-links">
-    <a href="#">Updates</a>
-    <a href="#">Training</a>
-    <a href="#">Config Guides</a>
-    <a href="#">Contact</a>
-  </div>
-</footer>
-
 </body>
 </html>
