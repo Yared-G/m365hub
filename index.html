@@ -370,14 +370,48 @@
 </div>
 
 <script>
-const PW   = "Edenkonjo191919!"; // 🔑 Change this password!
-const PKEY = "m365y_posts";
+const PW   = "m365admin"; // 🔑 Change this password!
 const TKEY = "m365y_training";
 
-// ---- DATA ----
-const getPosts = () => { try { return JSON.parse(localStorage.getItem(PKEY))||[]; } catch{ return []; } };
-const setPosts = p => localStorage.setItem(PKEY, JSON.stringify(p));
-const getTV    = () => { const v=localStorage.getItem(TKEY); return v===null?true:v==="true"; };
+// ---- SUPABASE CONFIG ----
+const SB_URL = "https://zwgotmnwvsxvkawgzlzl.supabase.co";
+const SB_KEY = "sb_publishable_1MOYOIm5puCqQZyLIpWCcA_eWGX_UNW";
+const SB_HDR = { "Content-Type":"application/json", "apikey": SB_KEY, "Authorization": "Bearer "+SB_KEY };
+
+// ---- DATA (Supabase) ----
+async function getPosts() {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/posts?order=created_at.desc`, { headers: SB_HDR });
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch(e) { console.error("Load error",e); return []; }
+}
+
+async function addPost(d) {
+  const res = await fetch(`${SB_URL}/rest/v1/posts`, {
+    method:"POST", headers:{...SB_HDR,"Prefer":"return=representation"},
+    body: JSON.stringify({ section:d.section, tag:d.tag, date:d.date, title:d.title, description:d.desc, content:d.content, duration:d.duration, enrolled:d.enrolled, icon:d.icon })
+  });
+  if(!res.ok) throw new Error(await res.text());
+}
+
+async function updatePost(id, d) {
+  const res = await fetch(`${SB_URL}/rest/v1/posts?id=eq.${id}`, {
+    method:"PATCH", headers:{...SB_HDR,"Prefer":"return=representation"},
+    body: JSON.stringify({ section:d.section, tag:d.tag, date:d.date, title:d.title, description:d.desc, content:d.content, duration:d.duration, enrolled:d.enrolled, icon:d.icon })
+  });
+  if(!res.ok) throw new Error(await res.text());
+}
+
+async function deletePostDB(id) {
+  await fetch(`${SB_URL}/rest/v1/posts?id=eq.${id}`, { method:"DELETE", headers:SB_HDR });
+}
+
+async function clearAllDB() {
+  await fetch(`${SB_URL}/rest/v1/posts`, { method:"DELETE", headers:{...SB_HDR,"Prefer":"return=minimal"} });
+}
+
+const getTV = () => { const v=localStorage.getItem(TKEY); return v===null?true:v==="true"; };
 
 // ---- UTILS ----
 const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -387,8 +421,13 @@ const getThumb= t => { for(const[k,v] of Object.entries({Teams:"thumb-teams",Sha
 const getLvl  = t => t==="Beginner"?"level-beginner":t==="Advanced"?"level-advanced":"level-inter";
 
 // ---- RENDER ----
-function renderAll() {
-  const all = getPosts();
+function mapPost(p) {
+  return { id:p.id, section:p.section, tag:p.tag, date:p.date, title:p.title, desc:p.description, content:p.content, duration:p.duration, enrolled:p.enrolled, icon:p.icon };
+}
+
+async function renderAll() {
+  const raw = await getPosts();
+  const all = raw.map(mapPost);
   const u = all.filter(p=>p.section==="updates");
   const c = all.filter(p=>p.section==="configs");
   const t = all.filter(p=>p.section==="training");
@@ -432,8 +471,9 @@ function renderTraining(id, posts) {
 }
 
 // ---- POST MODAL ----
-function openPM(id) {
-  const p = getPosts().find(x=>x.id===id); if(!p)return;
+async function openPM(id) {
+  const raw = await getPosts();
+  const p = raw.map(mapPost).find(x=>x.id===id); if(!p)return;
   document.getElementById("pmTag").className   = "tag "+tagCls(p.tag);
   document.getElementById("pmTag").textContent = p.tag;
   document.getElementById("pmDate").textContent    = fmtDate(p.date);
@@ -482,7 +522,7 @@ function switchTab(t){
 function onSectionChange(){ document.getElementById("trainingExtra").style.display=document.getElementById("pSection").value==="training"?"":"none"; }
 
 // ---- SAVE ----
-function savePost(){
+async function savePost(){
   const id=document.getElementById("eId").value;
   const d={
     section:document.getElementById("pSection").value,
@@ -497,13 +537,19 @@ function savePost(){
   };
   if(!d.title){alert("Please enter a title!");return;}
   if(!d.desc) {alert("Please enter a short description!");return;}
-  const posts=getPosts();
-  if(id){ const i=posts.findIndex(p=>p.id===id); if(i>=0)posts[i]={...posts[i],...d}; }
-  else posts.push({id:"p"+Date.now(),...d});
-  setPosts(posts); renderAll(); cancelEdit();
   const btn=document.getElementById("submitBtn");
-  btn.textContent="✅ Published!"; btn.style.background="#107c41";
-  setTimeout(()=>{ btn.textContent="✅ Publish Post"; btn.style.background=""; },2200);
+  btn.textContent="⏳ Saving..."; btn.disabled=true;
+  try {
+    if(id) await updatePost(id,d);
+    else    await addPost(d);
+    await renderAll(); cancelEdit();
+    btn.textContent="✅ Published!"; btn.style.background="#107c41"; btn.disabled=false;
+    setTimeout(()=>{ btn.textContent="✅ Publish Post"; btn.style.background=""; },2200);
+  } catch(e) {
+    btn.textContent="❌ Error — try again"; btn.disabled=false;
+    console.error(e);
+    setTimeout(()=>{ btn.textContent="✅ Publish Post"; },2500);
+  }
 }
 
 function cancelEdit(){
@@ -514,8 +560,9 @@ function cancelEdit(){
   document.getElementById("cancelBtn").style.display="none";
 }
 
-function editPost(id){
-  const p=getPosts().find(x=>x.id===id); if(!p)return;
+async function editPost(id){
+  const raw=await getPosts();
+  const p=raw.map(mapPost).find(x=>x.id===id); if(!p)return;
   switchTab("new");
   document.getElementById("eId").value      =p.id;
   document.getElementById("pSection").value =p.section;
@@ -533,17 +580,18 @@ function editPost(id){
   document.querySelector(".admin-panel").scrollTop=0;
 }
 
-function deletePost(id){
+async function deletePost(id){
   if(!confirm("Delete this post?"))return;
-  setPosts(getPosts().filter(p=>p.id!==id));
-  renderAll(); renderManage();
+  await deletePostDB(id);
+  await renderAll(); renderManage();
 }
 
-function clearAll(){ setPosts([]); renderAll(); renderManage(); }
+async function clearAll(){ await clearAllDB(); await renderAll(); renderManage(); }
 
-function renderManage(){
+async function renderManage(){
   const f=document.getElementById("mFilter").value;
-  const posts=getPosts().filter(p=>f==="all"||p.section===f).slice().reverse();
+  const raw=await getPosts();
+  const posts=raw.map(mapPost).filter(p=>f==="all"||p.section===f);
   const el=document.getElementById("manageList");
   if(!posts.length){ el.innerHTML=`<div class="empty-s"><div class="ei">📭</div>No posts here yet.</div>`; return; }
   el.innerHTML=posts.map(p=>`
@@ -579,7 +627,7 @@ function toggleTraining(){ const v=document.getElementById("tToggle").checked; l
 // Keyboard
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closePM(); closeAdmin(); } });
 
-// Init
+// ===================== INIT =====================
 renderAll();
 </script>
 </body>
