@@ -6,13 +6,13 @@
 <title>M365Y — Updates, Config & Free Training</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0a0e1a;--bg2:#0f1525;--surface:#141929;--border:#1e2a40;--accent:#0078d4;--accent2:#50e6ff;--accent3:#ffaa44;--text:#e8edf5;--muted:#6b7a99;--tag-bg:#1a2540}
+  :root{--bg:#f3f6fb;--bg2:#e8eef6;--surface:#ffffff;--border:#d0daea;--accent:#0078d4;--accent2:#106ebe;--accent3:#e07b2a;--text:#1a1f2e;--muted:#6b7894;--tag-bg:#e3edf8}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(0,120,212,.12) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(80,230,255,.07) 0%,transparent 50%);pointer-events:none;z-index:0}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(0,120,212,.07) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(16,110,190,.05) 0%,transparent 50%);pointer-events:none;z-index:0}
 
   /* NAV */
-  nav{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;gap:1rem}
+  nav{position:sticky;top:0;z-index:100;background:rgba(243,246,251,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;gap:1rem}
   .nav-logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;color:var(--text);text-decoration:none;flex-shrink:0}
   .nav-search{flex:1;max-width:340px;position:relative}
   .nav-search input{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem .5rem 2.4rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;transition:border-color .2s}
@@ -26,7 +26,7 @@
   .nav-cta:hover{background:#0062b1!important}
 
   /* SEARCH RESULTS DROPDOWN */
-  .search-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;z-index:200;overflow:hidden;display:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .search-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;z-index:200;overflow:hidden;display:none;box-shadow:0 8px 24px rgba(0,120,212,.1)}
   .search-dropdown.open{display:block}
   .search-item{padding:.75rem 1rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
   .search-item:last-child{border-bottom:none}
@@ -36,9 +36,9 @@
   .search-no-results{padding:1rem;text-align:center;color:var(--muted);font-size:.875rem}
 
   /* HERO */
-  .hero{position:relative;z-index:1;padding:6rem 2.5rem 4rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,120,212,.15);border:1px solid rgba(0,120,212,.3);color:var(--accent2);font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .8rem;border-radius:20px;margin-bottom:1.4rem}
-  .eyebrow-dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite}
+  .hero{position:relative;z-index:1;padding:3rem 2.5rem 2.5rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,120,212,.1);border:1px solid rgba(0,120,212,.25);color:var(--accent);font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .8rem;border-radius:20px;margin-bottom:1.4rem}
+  .eyebrow-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
   .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.2rem}
   .hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -47,7 +47,7 @@
   .btn-primary{background:var(--accent);color:#fff;padding:.75rem 1.5rem;border-radius:8px;font-weight:500;text-decoration:none;font-size:.95rem;transition:background .2s,transform .2s;display:inline-flex;align-items:center;gap:6px}
   .btn-primary:hover{background:#0062b1;transform:translateY(-1px)}
   .btn-ghost{border:1px solid var(--border);color:var(--text);padding:.75rem 1.5rem;border-radius:8px;font-weight:500;text-decoration:none;font-size:.95rem;transition:border-color .2s,background .2s;display:inline-flex;align-items:center;gap:6px}
-  .btn-ghost:hover{border-color:var(--accent);background:rgba(0,120,212,.08)}
+  .btn-ghost:hover{border-color:var(--accent);background:rgba(0,120,212,.06)}
   .hero-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;transition:border-color .2s,transform .2s;animation:fadeUp .5s ease both}
   .stat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
@@ -67,9 +67,9 @@
   /* CARDS */
   .updates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem}
   .update-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s;display:flex;flex-direction:column;gap:.8rem}
-  .update-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,120,212,.12)}
+  .update-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,120,212,.1)}
   .card-top{display:flex;align-items:center;justify-content:space-between}
-  .tag{background:var(--tag-bg);color:var(--accent2);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .65rem;border-radius:20px;border:1px solid rgba(80,230,255,.2)}
+  .tag{background:var(--tag-bg);color:var(--accent);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .65rem;border-radius:20px;border:1px solid rgba(0,120,212,.2)}
   .tag.orange{color:var(--accent3);border-color:rgba(255,170,68,.25)}
   .tag.green{color:#56d364;border-color:rgba(86,211,100,.25)}
   .tag.red{color:#ff6b6b;border-color:rgba(255,107,107,.25)}
@@ -121,7 +121,7 @@
   .footer-links a:hover{color:var(--text)}
 
   /* POST MODAL */
-  .modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:1rem}
+  .modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(26,31,46,.55);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:1rem}
   .modal-overlay.open{display:flex}
   .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:700px;max-height:92vh;overflow-y:auto;animation:mIn .25s ease}
   @keyframes mIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
@@ -172,7 +172,7 @@
   .no-comments{text-align:center;color:var(--muted);font-size:.875rem;padding:1.5rem 0}
 
   /* ADMIN PANEL */
-  .admin-overlay{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:1rem}
+  .admin-overlay{display:none;position:fixed;inset:0;z-index:3000;background:rgba(26,31,46,.6);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:1rem}
   .admin-overlay.open{display:flex}
   .admin-panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:640px;max-height:93vh;overflow-y:auto;font-family:'DM Sans',sans-serif;animation:mIn .25s ease}
   .admin-hdr{padding:1.4rem 1.5rem 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
@@ -211,13 +211,6 @@
   .empty-s{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:.875rem}
   .empty-s .ei{font-size:1.8rem;margin-bottom:.4rem}
 
-  /* HIDDEN ADMIN BTN — only visible after secret tap */
-  #adminBtn{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--surface);border:1px solid var(--border);color:var(--muted);width:44px;height:44px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:border-color .2s,color .2s,opacity .3s;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none}
-  #adminBtn.visible{opacity:1;pointer-events:all}
-  #adminBtn:hover{border-color:var(--accent);color:var(--accent)}
-
-  /* SECRET TAP ZONE — invisible corner */
-  #secretZone{position:fixed;bottom:0;right:0;width:60px;height:60px;z-index:998;cursor:default}
 
   @media(max-width:768px){
     .hero{grid-template-columns:1fr;padding:3rem 1.5rem 2rem}
@@ -237,7 +230,7 @@
 
 <nav>
   <a class="nav-logo" href="#">
-    <img src="logo.png" alt="M365Y" style="height:46px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,120,212,.6));transition:filter .2s" onmouseover="this.style.filter='drop-shadow(0 0 14px rgba(80,230,255,.8))'" onmouseout="this.style.filter='drop-shadow(0 0 8px rgba(0,120,212,.6))'">
+    <img src="logo.png" alt="M365Y" style="height:46px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,120,212,.35));transition:filter .2s" onmouseover="this.style.filter='drop-shadow(0 0 14px rgba(0,120,212,.6))'" onmouseout="this.style.filter='drop-shadow(0 0 8px rgba(0,120,212,.35))'">
   </a>
   <div class="nav-search">
     <span class="nav-search-icon">🔍</span>
@@ -264,7 +257,7 @@
   </div>
   <div class="hero-visual">
     <div style="grid-column:1/-1;display:flex;justify-content:center;margin-bottom:.5rem">
-      <img src="logo.png" alt="M365Y" style="width:100%;max-width:420px;height:auto;object-fit:contain;filter:drop-shadow(0 0 28px rgba(0,120,212,.55)) drop-shadow(0 0 8px rgba(80,230,255,.3))">
+      <img src="logo.png" alt="M365Y" style="width:100%;max-width:420px;height:auto;object-fit:contain;filter:drop-shadow(0 0 28px rgba(0,120,212,.3)) drop-shadow(0 0 8px rgba(16,110,190,.2))">
     </div>
     <div class="stat-card"><div class="stat-icon">📢</div><div class="stat-num" id="statUpdates">0</div><div class="stat-label">Updates Posted</div></div>
     <div class="stat-card"><div class="stat-icon">🎓</div><div class="stat-num" id="statTraining">0</div><div class="stat-label">Training Modules</div></div>
@@ -352,9 +345,8 @@
   </div>
 </div>
 
-<!-- SECRET ADMIN ZONE (invisible bottom-right corner) -->
-<div id="secretZone"></div>
-<button id="adminBtn" onclick="openAdmin()" title="Admin">⚙️</button>
+
+
 
 <!-- ADMIN PANEL -->
 <div class="admin-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
@@ -686,32 +678,77 @@ function closeSearch() {
 async function subscribe() {
   const email = document.getElementById("nlEmail").value.trim();
   const msg   = document.getElementById("nlMsg");
-  if(!email || !email.includes("@")){ msg.style.display="block"; msg.style.color="#ff6b6b"; msg.textContent="Please enter a valid email address."; return; }
+  if(!email || !email.includes("@")){ msg.style.display="block"; msg.style.color="#dc2626"; msg.textContent="Please enter a valid email address."; return; }
+
+  // Generate a simple unsubscribe token
+  const token = Math.random().toString(36).slice(2) + Date.now().toString(36);
+
   try {
-    await sbFetch("/rest/v1/subscribers",{method:"POST",headers:{"Prefer":"return=minimal"},body:JSON.stringify({email})});
-    msg.style.display="block"; msg.style.color="#56d364";
-    msg.textContent="✅ You're subscribed! Thanks for joining.";
+    // Save subscriber with token to Supabase
+    await sbFetch("/rest/v1/subscribers",{method:"POST",headers:{"Prefer":"return=minimal"},body:JSON.stringify({email, unsubscribe_token: token})});
+
+    // Send welcome email via Resend
+    // ⚠️ SETUP REQUIRED: Replace YOUR_RESEND_API_KEY below with your key from resend.com (free)
+    // Also set your FROM address once you verify your domain in Resend
+    const RESEND_KEY = "YOUR_RESEND_API_KEY";
+    const FROM_EMAIL = "hello@m365y.com"; // Update after verifying domain in Resend
+    const unsubLink  = `https://m365y.com/?unsub=${token}`;
+
+    if(RESEND_KEY !== "YOUR_RESEND_API_KEY") {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {"Content-Type":"application/json","Authorization":"Bearer "+RESEND_KEY},
+        body: JSON.stringify({
+          from: `M365Y <${FROM_EMAIL}>`,
+          to: [email],
+          subject: "Welcome to M365Y — You're subscribed! 🎉",
+          html: `
+            <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:560px;margin:0 auto;background:#f3f6fb;padding:32px 24px;border-radius:16px">
+              <div style="text-align:center;margin-bottom:24px">
+                <img src="https://m365y.com/logo.png" alt="M365Y" style="height:60px">
+              </div>
+              <div style="background:#ffffff;border-radius:12px;padding:32px;border:1px solid #d0daea">
+                <h1 style="color:#1a1f2e;font-size:22px;margin:0 0 12px">You're in! 🎉</h1>
+                <p style="color:#6b7894;font-size:15px;line-height:1.7;margin:0 0 20px">
+                  Thanks for subscribing to <strong style="color:#0078d4">M365Y</strong>. You'll now get the latest Microsoft 365 updates, config guides, and free training drops straight to your inbox.
+                </p>
+                <a href="https://m365y.com" style="display:inline-block;background:#0078d4;color:#fff;text-decoration:none;padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600">Visit M365Y →</a>
+              </div>
+              <p style="color:#aaa;font-size:12px;text-align:center;margin-top:20px">
+                Don't want these emails? <a href="${unsubLink}" style="color:#0078d4">Unsubscribe here</a>
+              </p>
+            </div>`
+        })
+      });
+    }
+
+    msg.style.display="block"; msg.style.color="#16a34a";
+    msg.textContent="✅ You're subscribed! Check your inbox for a welcome email.";
     document.getElementById("nlEmail").value="";
   } catch(e) {
-    // If table doesn't exist yet, show success anyway gracefully
-    msg.style.display="block"; msg.style.color="#56d364";
+    // Subscriber may already exist
+    msg.style.display="block"; msg.style.color="#16a34a";
     msg.textContent="✅ You're subscribed! Thanks for joining.";
     document.getElementById("nlEmail").value="";
   }
 }
 
-// ===================== SECRET ADMIN REVEAL =====================
-// Triple-click the bottom-right corner to show the gear icon
-let secretTaps = 0;
-document.getElementById("secretZone").addEventListener("click", ()=>{
-  secretTaps++;
-  if(secretTaps >= 3){
-    secretTaps = 0;
-    document.getElementById("adminBtn").classList.add("visible");
-    setTimeout(()=>{ document.getElementById("adminBtn").classList.remove("visible"); }, 10000); // hides again after 10s
+// Handle unsubscribe link click
+async function handleUnsub() {
+  const params = new URLSearchParams(window.location.search);
+  const token  = params.get("unsub");
+  if(!token) return;
+  try {
+    await sbFetch(`/rest/v1/subscribers?unsubscribe_token=eq.${token}`,{method:"DELETE"});
+    showToast("✅ You've been unsubscribed successfully.");
+    window.history.replaceState({}, "", window.location.pathname);
+  } catch(e) {
+    showToast("⚠️ Could not process unsubscribe. Please try again.");
   }
-  setTimeout(()=>{ if(secretTaps>0) secretTaps=0; }, 2000);
-});
+}
+
+// ===================== SECRET ADMIN SHORTCUT =====================
+// Press Ctrl+Shift+A to open admin panel — invisible to end users
 
 // ===================== ADMIN =====================
 function openAdmin() {
@@ -813,9 +850,13 @@ function applyTV(v){
 function toggleTraining(){ const v=document.getElementById("tToggle").checked; localStorage.setItem(TKEY,v); applyTV(v); }
 
 // ===================== KEYBOARD =====================
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closePM(); closeAdmin(); } });
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){ closePM(); closeAdmin(); }
+  if(e.ctrlKey && e.shiftKey && e.key==="A"){ e.preventDefault(); openAdmin(); }
+});
 
 // ===================== INIT =====================
+handleUnsub();
 renderAll();
 </script>
 </body>
